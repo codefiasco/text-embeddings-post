@@ -2,7 +2,7 @@
 
 Imagine you have a lot of extensive documents, and somewhere in them there's the answer to a question you really want to know. Sure, you can go through hundreds if not thousands of pages looking for it... Or you can leverage text embedding and chat completion models to help you with this task! Let's see an example.
 
-I have a text file containing the story of the `Little Red Riding Hood` on my machine and I'd like to find out:
+I have a text file containing the story of the `Little Red Riding Hood` on my machine, and I'd like to find out:
 
 - What is the moral of the story?
 
@@ -21,7 +21,7 @@ Which is exactly what we need in order to find the relevant sections of informat
 
 ---
 
-First, create an npm project inside the directory you'll use:
+First, create a npm project inside the directory you'll use:
 
 ```sh
 npm init
@@ -36,7 +36,7 @@ npm install openai @pinecone-database/pinecone
 - `openai` - OpenAI's sdk, which makes it easier to use their API;
 - `@pinecone-database/pinecone` - the database client we'll use to store the embeddings;
 
-Ok, now that the project has been set up we can start programming!
+Ok, now that the project has been set up, we can start programming!
 Create a file called `parse-embeddings.js`. In it write:
 
 ```js
@@ -56,7 +56,7 @@ async function execute() {
 execute();
 ```
 
-Here we're loading our entire story and breaking it down into its paragraphs. This is so we can search for the more relevant parts to our question when we later query the database. This process is called **chunking** and there are [many strategies](https://www.pinecone.io/learn/chunking-strategies/) to do it, this is not the best solution but it'll serve our purpose for now.
+Here we're loading our entire story and breaking it down into its paragraphs. This is so we can search for the more relevant parts to our question when we later query the database. This process is called **chunking** and there are [many strategies](https://www.pinecone.io/learn/chunking-strategies/) to do it, this is not the best solution, but it'll serve our purpose for now.
 
 Once our text has been split, we're going to ask an embeddings model to generate its vector representations. Let's create that function:
 
@@ -85,7 +85,7 @@ async function getEmbedding(text) {
 Next, sign up to [Pinecone](https://www.pinecone.io/). This service will provide a vector database to store the embeddings. Their free tier is enough for our purpose.
 On your pinecone dashboard, create an index called `little-red-riding-hood` with 1536 dimensions (this is the size of the arrays the [embeddings model](https://platform.openai.com/docs/models/embeddings) we'll use generates).
 
-To finish up, run the function previosuly created for each paragraph and store its result on Pinecone:
+To finish up, run the function previously created for each paragraph and store its result on Pinecone:
 
 ```js
 // parse-embeddings.js
@@ -122,7 +122,7 @@ async function execute() {
 
 > We're running the requests sequentially because OpenAI has small [rate limits on their free tier](https://platform.openai.com/docs/guides/rate-limits/usage-tiers?context=tier-free), this way their SDK will make sure we wait the appropriate amount of time between requests.
 
-Notice that in the snippet above we're associating the original text as part of the metadata of each embedding. When we later fetch the records from Pinecone we'll only have access to the embeddings vector that was inserted, so we'll use this metadata to know what the original text was.
+Notice that in the snippet above, we're associating the original text as part of the metadata of each embedding. When we later fetch the records from Pinecone we'll only have access to the embeddings vector that was inserted, so we'll use this metadata to know what the original text was.
 
 We're now ready to import the story into the db!
 
@@ -134,7 +134,7 @@ node parse-embeddings.js
 
 ## Getting some answers
 
-Now that our document has been parsed and stored in a vector database we can finally get some answers! We'll first need to retrieve the most relevant paragraphs from the document.
+Now that our document has been parsed and stored in a vector database, we can finally get some answers! We'll first need to retrieve the most relevant paragraphs from the document.
 Create a new file called `query-document.js` and let's set it up:
 
 ```js
@@ -196,7 +196,7 @@ async function execute() {
 // ...
 ```
 
-In the snippet above we first generate the embeddings representation of the question, then use it to fetch the 5 most relevant chunks from the db and finnaly extract their original text. The model that generated the stored embeddings has to be the same used for que question embeddings for this to work correctly (different models represent and understand data differently).
+In the snippet above, we first generate the text embedding representation of the question, then use it to fetch the 5 most relevant chunks from the db and finally extract their original text. The model that generated the stored embeddings has to be the same used for the question embeddings for this to work correctly (different models represent and understand data differently).
 
 Now that we have the most relevant information, we can take it and ask `gpt-3.5-turbo` for an answer to our question:
 
@@ -239,6 +239,6 @@ You can play around with different questions and different prompts to see what r
 
 ## Conclusion
 
-This has been a very simple and naive example of how you can parse your own documents and get answers to questions in them. There is a lot of information surrounding this topic and I hope your curiosity has been sparked! If you want to dive deeper, I suggest starting with [Pinecone's picks on core components articles](https://www.pinecone.io/learn/category/core-components/). They talk about what a vector db is, how it can help when working with LLMs and how different chunking statregies work. Have fun!
+This has been a very simple and naive example of how you can parse your own documents and get answers to questions in them. There is a lot of information surrounding this topic, and I hope your curiosity has been sparked! If you want to dive deeper, I suggest starting with [Pinecone's picks on core components articles](https://www.pinecone.io/learn/category/core-components/). They talk about what a vector db is, how it can help when working with LLMs and how different chunking strategies work. Have fun!
 
 You can check the final code examples for the scripts in this article on [this repo](https://github.com/codefiasco/text-embeddings-post).
