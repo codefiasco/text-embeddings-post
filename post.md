@@ -241,4 +241,4 @@ You can play around with different questions and different prompts to see what r
 
 This has been a very simple and naive example of how you can parse your own documents and get answers to questions in them. There is a lot of information surrounding this topic and I hope your curiosity has been sparked! If you want to dive deeper, I suggest starting with [Pinecone's picks on core components articles](https://www.pinecone.io/learn/category/core-components/). They talk about what a vector db is, how it can help when working with LLMs and how different chunking statregies work. Have fun!
 
-You can check the final code examples for the scripts in this article on [this repo](**insert repo here**).
+You can check the final code examples for the scripts in this article on [this repo](https://github.com/codefiasco/text-embeddings-post).
