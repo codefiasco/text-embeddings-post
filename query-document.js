@@ -2,16 +2,16 @@ const OpenAI = require("openai");
 const { Pinecone } = require("@pinecone-database/pinecone");
 
 const openai = new OpenAI({
-  apiKey: /* your OpenAI API key */,
+  apiKey: process.env.OPEN_AI_KEY,
 });
 
 const pinecone = new Pinecone({
-  apiKey: /* your Pinecone API key */,
+  apiKey: process.env.PINECONE_KEY,
 });
 
-const index = pinecone.index("embeddings-post");
+const index = pinecone.index(process.env.INDEX_NAME);
 
-const question = "What is the moral of the story?";
+const question = process.env.QUESTION;
 
 async function execute() {
   const queryEmbedding = await getEmbedding(question);

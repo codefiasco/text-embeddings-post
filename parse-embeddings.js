@@ -3,21 +3,21 @@ const OpenAI = require("openai");
 const { Pinecone } = require("@pinecone-database/pinecone");
 
 const openai = new OpenAI({
-  apiKey: /* your OpenAI API key */,
+  apiKey: process.env.OPEN_AI_KEY,
 });
 
 const pinecone = new Pinecone({
-  apiKey: /* your Pinecone API key */,
+  apiKey: process.env.PINECONE_KEY,
 });
 
 async function execute() {
-  const text = fs.readFileSync("./little-red-riding-hood.txt", {
+  const text = fs.readFileSync(process.env.FILE_PATH, {
     encoding: "utf8",
     flag: "r",
   });
   const paragraphs = text.split("\n\n");
 
-  const index = pinecone.index("little-red-riding-hood");
+  const index = pinecone.index(process.env.INDEX_NAME);
 
   for (let i = 0; i < paragraphs.length; i++) {
     const text = paragraphs[i];
@@ -33,7 +33,7 @@ async function execute() {
       },
     ]);
   }
-};
+}
 
 execute();
 
